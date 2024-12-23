@@ -10,8 +10,26 @@ app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}/`);
 });
 
+// Initial run
+(async () => {
+  try {
+    console.log("Initial database refresh...");
+    await resetDatabase();
+    await refreshNBAh2h();
+    console.log("Initial refresh complete");
+  } catch (error) {
+    console.error("Error during initial database refresh:", error);
+  }
+})();
+
 // Refresh every X amount of minutes (minutes * seconds * milliseconds)
-setInterval(() => {
-  resetDatabase();
-  refreshNBAh2h();
+setInterval(async () => {
+  try {
+    console.log("Starting database refresh...");
+    await resetDatabase();
+    await refreshNBAh2h();
+    console.log("Database successfully refreshed");
+  } catch (error) {
+    console.error("Error during database refresh:", error);
+  }
 }, minutes * 60 * 1000);
