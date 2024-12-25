@@ -53,7 +53,7 @@ export async function resetDatabase(sport) {
   try {
     await connectToDb();
 
-    // Refresh h2h
+    // Update h2h
     await client
       .db("jodds")
       .collection("h2h")
@@ -67,7 +67,7 @@ export async function resetDatabase(sport) {
         { upsert: true }
       );
 
-    // Refresh spreads
+    // Update spreads
     await client
       .db("jodds")
       .collection("spreads")
@@ -81,7 +81,7 @@ export async function resetDatabase(sport) {
         { upsert: true }
       );
 
-    // Refresh totals
+    // Update totals
     await client
       .db("jodds")
       .collection("totals")
@@ -100,7 +100,7 @@ export async function resetDatabase(sport) {
   }
 }
 
-// Refresh NBA h2h games
+// Refresh h2h games
 export async function refreshH2H(sport) {
   try {
     await connectToDb();
@@ -192,7 +192,7 @@ export async function refreshH2H(sport) {
   }
 }
 
-// Refresh NBA spread games
+// Refresh spread games
 export async function refreshSpreads(sport) {
   try {
     await connectToDb();
@@ -254,6 +254,7 @@ export async function refreshSpreads(sport) {
   }
 }
 
+// Refresh totals
 export async function refreshTotals(sport) {
   try {
     await connectToDb();
