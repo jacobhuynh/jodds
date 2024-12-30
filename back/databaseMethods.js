@@ -128,8 +128,6 @@ export async function refreshH2H(sport) {
                 team1: data[i].home_team,
                 team2: data[i].away_team,
                 bookmakers: [],
-                odds1: [],
-                odds2: [],
                 bestOdds1: 0.0,
                 bestBookmaker1: "",
                 bestOdds2: 0.0,
@@ -149,11 +147,11 @@ export async function refreshH2H(sport) {
             { sport: sport, "games._id": data[i].id },
             {
               $push: {
-                "games.$.bookmakers": data[i].bookmakers[j].title,
-                "games.$.odds1":
-                  data[i].bookmakers[j].markets[0].outcomes[0].price,
-                "games.$.odds2":
-                  data[i].bookmakers[j].markets[0].outcomes[1].price,
+                "games.$.bookmakers": {
+                  name: data[i].bookmakers[j].title,
+                  odds1: data[i].bookmakers[j].markets[0].outcomes[0].price,
+                  odds2: data[i].bookmakers[j].markets[0].outcomes[1].price,
+                },
               },
             },
             { upsert: true }
@@ -214,10 +212,6 @@ export async function refreshSpreads(sport) {
                 team1: data[i].home_team,
                 team2: data[i].away_team,
                 bookmakers: [],
-                odds1: [],
-                odds2: [],
-                points1: [],
-                points2: [],
               },
             },
           },
@@ -233,15 +227,13 @@ export async function refreshSpreads(sport) {
             { sport: sport, "games._id": data[i].id },
             {
               $push: {
-                "games.$.bookmakers": data[i].bookmakers[j].title,
-                "games.$.odds1":
-                  data[i].bookmakers[j].markets[0].outcomes[0].price,
-                "games.$.points1":
-                  data[i].bookmakers[j].markets[0].outcomes[0].point,
-                "games.$.odds2":
-                  data[i].bookmakers[j].markets[0].outcomes[1].price,
-                "games.$.points2":
-                  data[i].bookmakers[j].markets[0].outcomes[1].point,
+                "games.$.bookmakers": {
+                  name: data[i].bookmakers[j].title,
+                  odds1: data[i].bookmakers[j].markets[0].outcomes[0].price,
+                  points1: data[i].bookmakers[j].markets[0].outcomes[0].point,
+                  odds2: data[i].bookmakers[j].markets[0].outcomes[1].price,
+                  points2: data[i].bookmakers[j].markets[0].outcomes[1].point,
+                },
               },
             },
             { upsert: true }
@@ -276,10 +268,6 @@ export async function refreshTotals(sport) {
                 team1: data[i].home_team,
                 team2: data[i].away_team,
                 bookmakers: [],
-                oddsOver: [],
-                oddsUnder: [],
-                pointsOver: [],
-                pointsUnder: [],
               },
             },
           },
@@ -295,15 +283,15 @@ export async function refreshTotals(sport) {
             { sport: sport, "games._id": data[i].id },
             {
               $push: {
-                "games.$.bookmakers": data[i].bookmakers[j].title,
-                "games.$.oddsOver":
-                  data[i].bookmakers[j].markets[0].outcomes[0].price,
-                "games.$.pointsOver":
-                  data[i].bookmakers[j].markets[0].outcomes[0].point,
-                "games.$.oddsUnder":
-                  data[i].bookmakers[j].markets[0].outcomes[1].price,
-                "games.$.pointsUnder":
-                  data[i].bookmakers[j].markets[0].outcomes[1].point,
+                "games.$.bookmakers": {
+                  name: data[i].bookmakers[j].title,
+                  oddsOver: data[i].bookmakers[j].markets[0].outcomes[0].price,
+                  pointsOver:
+                    data[i].bookmakers[j].markets[0].outcomes[0].point,
+                  oddsUnder: data[i].bookmakers[j].markets[0].outcomes[1].price,
+                  pointsUnder:
+                    data[i].bookmakers[j].markets[0].outcomes[1].point,
+                },
               },
             },
             { upsert: true }
